@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Autonomous SOC Assistant helps security teams triage alerts faster, reduce repetitive investigation, and respond with human oversight.">
+  <title>Autonomous SOC Assistant | Security Operations, Smarter</title>
+  <style>
+    :root{
+      --bg:#07111f; --panel:#0d1b2d; --panel2:#10243a; --text:#edf5ff;
+      --muted:#a8bbd2; --line:rgba(177,205,238,.15); --cyan:#55e6d1;
+      --blue:#6aa8ff; --purple:#a78bfa; --green:#80f0b0;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:radial-gradient(ellipse at 80% 0%,#112c48 0%,var(--bg) 48%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+    header{position:sticky;top:0;z-index:10;background:rgba(7,17,31,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+    nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:750;letter-spacing:-.03em}
+    .logo{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#061322;font-weight:900;box-shadow:0 0 26px #55e6d133}
+    .navlinks{display:flex;align-items:center;gap:25px;color:var(--muted);font-size:.92rem}
+    .navlinks a:hover{color:var(--text)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 18px;border-radius:12px;font-weight:750;font-size:.94rem;border:1px solid transparent;transition:transform .2s,filter .2s}
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+    .primary{background:linear-gradient(120deg,var(--cyan),#9ef3d6);color:#071521}
+    .secondary{border-color:var(--line);background:#ffffff08;color:var(--text)}
+    .hero{padding:88px 0 66px;display:grid;grid-template-columns:1.06fr .94fr;gap:55px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid #55e6d14a;border-radius:99px;padding:7px 12px;color:var(--cyan);font-size:.8rem;font-weight:750;letter-spacing:.08em;text-transform:uppercase;background:#55e6d10b}
+    .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+    h1{font-size:clamp(2.6rem,5vw,4.5rem);line-height:1.06;letter-spacing:-.06em;margin:22px 0}
+    .gradient{background:linear-gradient(100deg,var(--cyan),#8ab8ff 55%,#c2a7ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{font-size:1.12rem;color:var(--muted);max-width:610px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 24px}
+    .trust{display:flex;gap:20px;flex-wrap:wrap;color:#c0d0e4;font-size:.86rem}
+    .trust span{display:flex;align-items:center;gap:7px}
+    .check{color:var(--green);font-weight:900}
+    .dashboard{position:relative;border:1px solid #a6c9f22b;border-radius:22px;padding:18px;background:linear-gradient(145deg,#132b43e8,#0b1728f5);box-shadow:0 30px 90px #0006}
+    .dash-head{display:flex;align-items:center;justify-content:space-between;padding:3px 2px 17px;border-bottom:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+    .live{color:var(--green);font-size:.75rem}
+    .metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:15px 0}
+    .metric{padding:15px;border:1px solid var(--line);border-radius:14px;background:#ffffff04}
+    .metric small{color:var(--muted);display:block;font-size:.76rem}
+    .metric strong{display:block;font-size:1.65rem;letter-spacing:-.04em;margin:5px 0}
+    .trend{font-size:.74rem;color:var(--green)}
+    .section-label{color:var(--muted);font-size:.77rem;text-transform:uppercase;letter-spacing:.13em;font-weight:800}
+    .alert-list{display:grid;gap:9px;margin-top:10px}
+    .alert{display:flex;gap:12px;align-items:center;border:1px solid var(--line);background:#ffffff04;border-radius:12px;padding:11px}
+    .alert-icon{height:35px;width:35px;border-radius:10px;display:grid;place-items:center;background:#ffb45418;color:#ffbf6b;flex-shrink:0}
+    .alert:nth-child(2) .alert-icon{background:#a78bfa18;color:#c0aaff}
+    .alert:nth-child(3) .alert-icon{background:#55e6d118;color:var(--cyan)}
+    .alert-text{min-width:0;flex:1}
+    .alert-text strong{display:block;font-size:.82rem}
+    .alert-text small{color:var(--muted);font-size:.72rem}
+    .status{font-size:.69rem;border-radius:99px;padding:4px 7px;background:#55e6d118;color:var(--cyan);white-space:nowrap}
+    .notice{margin-top:12px;color:#8299b5;font-size:.72rem}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:10px 0 78px}
+    .stat{border:1px solid var(--line);background:#ffffff03;border-radius:15px;padding:19px;text-align:center}
+    .stat strong{display:block;font-size:1.15rem;color:var(--cyan)}
+    .stat span{font-size:.82rem;color:var(--muted)}
+    section.content{padding:65px 0}
+    .section-head{text-align:center;max-width:690px;margin:0 auto 36px}
+    h2{font-size:clamp(2rem,3.6vw,3rem);line-height:1.15;letter-spacing:-.045em;margin:12px 0}
+    .section-head p{color:var(--muted);margin:0}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+    .card{padding:25px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(150deg,#ffffff07,#ffffff02)}
+    .card-icon{width:45px;height:45px;border-radius:13px;display:grid;place-items:center;background:#55e6d115;color:var(--cyan);font-size:1.25rem;margin-bottom:18px}
+    .card h3{margin:0 0 8px;font-size:1.12rem}
+    .card p{margin:0;color:var(--muted);font-size:.94rem}
+    .workflow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .step{padding:21px;border-radius:16px;border:1px solid var(--line);background:#0d1b2d}
+    .number{font-size:.8rem;font-weight:850;color:var(--cyan);letter-spacing:.1em}
+    .step h3{font-size:1rem;margin:12px 0 6px}
+    .step p{font-size:.86rem;color:var(--muted);margin:0}
+    .cta{padding:42px;border:1px solid #55e6d136;border-radius:24px;background:radial-gradient(ellipse at 90% 0%,#55e6d11c,transparent 48%),#0c1b2c;text-align:center}
+    .cta p{max-width:620px;margin:0 auto 24px;color:var(--muted)}
+    footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:.84rem}
+    .foot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+    .foot a{color:var(--cyan)}
+    @media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:62px;gap:35px}.dashboard{max-width:620px;width:100%;margin:auto}.cards{grid-template-columns:1fr 1fr}.workflow{grid-template-columns:1fr 1fr}.navlinks{gap:13px}.navlinks .optional{display:none}}
+    @media(max-width:560px){.wrap{width:min(100% - 28px,1120px)}nav{height:66px}.brand{font-size:.9rem}.logo{width:34px;height:34px}.navlinks{display:none}.hero{padding:50px 0 35px}h1{font-size:2.7rem}.stats{grid-template-columns:1fr;margin-bottom:40px}.cards,.workflow{grid-template-columns:1fr}.cta{padding:28px 20px}.metric strong{font-size:1.4rem}.status{display:none}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav aria-label="Main navigation">
+      <a class="brand" href="#home"><span class="logo">A</span><span>Autonomous SOC Assistant</span></a>
+      <div class="navlinks">
+        <a href="#features">Features</a><a href="#workflow">How it works</a><a class="optional" href="#benefits">Benefits</a>
+        <a class="btn secondary" href="#contact">Request a demo ↗</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap" id="home">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> AI-assisted security operations</div>
+        <h1>Investigate alerts.<br><span class="gradient">Not endless queues.</span></h1>
+        <p class="lead">Autonomous SOC Assistant helps security teams prioritize alerts, gather investigation context, and recommend next steps—so analysts can focus on the threats that matter.</p>
+        <div class="actions">
+          <a class="btn primary" href="#contact">Explore a demo <span>→</span></a>
+          <a class="btn secondary" href="#features">Discover capabilities</a>
+        </div>
+        <div class="trust">
+          <span><b class="check">✓</b> Analyst-in-the-loop</span>
+          <span><b class="check">✓</b> Explainable findings</span>
+          <span><b class="check">✓</b> Designed for SOC workflows</span>
+        </div>
+      </div>
+
+      <div class="dashboard" aria-label="Illustrative security operations dashboard">
+        <div class="dash-head"><span>Security Operations Overview</span><span class="live">● SYSTEM CONCEPT</span></div>
+        <div class="metric-grid">
+          <div class="metric"><small>Alerts to review</small><strong>128</strong><span class="trend">Prioritization queue</span></div>
+          <div class="metric"><small>Investigation status</small><strong>24 <span style="font-size:.8rem;color:#a8bbd2">active</span></strong><span class="trend">Context being gathered</span></div>
+          <div class="metric"><small>Evidence sources</small><strong>06</strong><span class="trend">Connected data signals</span></div>
+          <div class="metric"><small>Analyst action</small><strong>Review</strong><span class="trend">Human approval retained</span></div>
+        </div>
+        <div class="section-label">Illustrative alert queue</div>
+        <div class="alert-list">
+          <div class="alert"><div class="alert-icon">⚠</div><div class="alert-text"><strong>Suspicious sign-in pattern</strong><small>Identity · Context gathered</small></div><span class="status">Review</span></div>
+          <div class="alert"><div class="alert-icon">⌁</div><div class="alert-text"><strong>Unusual endpoint activity</strong><small>Endpoint · Correlation suggested</small></div><span class="status">Investigate</span></div>
+          <div class="alert"><div class="alert-icon">◇</div><div class="alert-text"><strong>Potential phishing indicator</strong><small>Email · Evidence summarized</small></div><span class="status">Prioritized</span></div>
+        </div>
+        <div class="notice">Concept interface for demonstration. Metrics and alerts are illustrative, not live security data.</div>
+      </div>
+    </section>
+
+    <div class="stats" id="benefits">
+      <div class="stat"><strong>Faster triage</strong><span>Reduce repetitive first-pass investigation</span></div>
+      <div class="stat"><strong>Clearer context</strong><span>Bring related evidence into one view</span></div>
+      <div class="stat"><strong>Human-led response</strong><span>Keep decisions visible and reviewable</span></div>
+    </div>
+  </div>
+
+  <section class="content" id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-label">Core capabilities</div>
+        <h2>Less noise. More useful context.</h2>
+        <p>Support the investigation journey from alert intake to a clear, reviewable recommendation.</p>
+      </div>
+      <div class="cards">
+        <article class="card"><div class="card-icon">⌕</div><h3>Intelligent alert triage</h3><p>Organize incoming alerts by priority and supporting signals to help analysts decide what deserves attention first.</p></article>
+        <article class="card"><div class="card-icon">◎</div><h3>Investigation summaries</h3><p>Bring key observations, related events, and evidence into a concise summary that is easier to review.</p></article>
+        <article class="card"><div class="card-icon">✳</div><h3>Response recommendations</h3><p>Suggest practical next steps and explain the reasoning, with analyst approval before consequential actions.</p></article>
+        <article class="card"><div class="card-icon">⌘</div><h3>Workflow assistance</h3><p>Help reduce repetitive investigation tasks and support consistent handling across security cases.</p></article>
+        <article class="card"><div class="card-icon">◈</div><h3>Evidence-aware reasoning</h3><p>Make findings easier to validate by showing the signals and context behind a recommendation.</p></article>
+        <article class="card"><div class="card-icon">⛨</div><h3>Human oversight</h3><p>Keep security professionals in control of escalation, containment, and final response decisions.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="content" id="workflow">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-label">How it works</div>
+        <h2>From alert to informed action</h2>
+        <p>A simple workflow designed to complement—not replace—your security team.</p>
+      </div>
+      <div class="workflow">
+        <div class="step"><div class="number">STEP 01</div><h3>Ingest</h3><p>Receive an alert and its available security context.</p></div>
+        <div class="step"><div class="number">STEP 02</div><h3>Enrich</h3><p>Collect relevant signals and identify useful relationships.</p></div>
+        <div class="step"><div class="number">STEP 03</div><h3>Recommend</h3><p>Summarize findings, priority, and possible next steps.</p></div>
+        <div class="step"><div class="number">STEP 04</div><h3>Review & act</h3><p>An analyst validates the recommendation and decides what happens next.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content" id="contact">
+    <div class="wrap">
+      <div class="cta">
+        <div class="section-label">Bring clarity to your SOC</div>
+        <h2>Ready to explore smarter triage?</h2>
+        <p>See how an AI-assisted workflow could fit your security operations. Contact the project team to discuss a walkthrough, feedback, or collaboration.</p>
+        <!-- Replace the placeholder email below with your real project contact before publishing. -->
+        <a class="btn primary" href="mailto:your-email@example.com?subject=Autonomous%20SOC%20Assistant%20Demo%20Enquiry">Contact the project team ↗</a>
+        <p style="font-size:.8rem;margin-top:14px">Before publishing, replace <strong>your-email@example.com</strong> with your preferred contact email.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="brand"><span class="logo">A</span><span>Autonomous SOC Assistant</span></div>
+    <span>AI-assisted security operations · Built for analyst-led decisions</span>
+    <span>© <span id="year">2026</span> Project website</span>
+  </div>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
